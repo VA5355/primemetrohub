@@ -1,0 +1,32 @@
+[build]
+  command = "npm run build"
+  publish = "dist/"
+
+# Catch-all rule for client-side routing (if needed for static exports)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Apply caching headers to specific static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+   Content-Security-Policy = "frame-ancestors 'self' https://storenotify.in https://192.168.1.8:3000 https://192.168.1.8:8888 http://192.168.1.8:8888 https://192.168.1.2:3001 https://localhost:3000 https://atmdemoaivenmysql.onrender.com https://rzp.io https://store-stocks.netlify.app https://fyersmarketfeed.onrender.com https://fyersorders.onrender.com https://fyers-positions-socket-git.onrender.com https://onedinaar.com https://successrate.netlify.app https://localhost:9384 https://192.168.1.4:9384 https://fyers-auto-register-onedinaar.onrender.com https://onedinaarvirtualaccount.onrender.com "
+     X-XSS-Protection = "1; mode=block"
+    X-Robots-Tag = "index"
+    Cache-Control = "public, max-age=0, no-cache, no-store, must-revalidate"
+
+[dev]
+  bind = "0.0.0.0"  # Bind to all available network interfaces
+  framework = "#custom"
+  command = "npm run dev"   # Or your actual dev command
+  port = 8888               # Optional
+  targetPort = 3000         # Optional if using a proxy
+  https = { keyFile = "./ssl.key/server.key", certFile = "./ssl.crt/server.crt" }
+
